@@ -8,7 +8,6 @@ np.random.seed(42)
 random.seed(42)
 
 # 1. Menu & Cost Database
-# [Detail] Reflected specific costs and prices provided by the user
 menu_db = {
     # Coffee
     'Americano': {'price': 3800, 'cost_hot': 730, 'cost_ice': 750, 'category': 'Coffee'},
@@ -20,7 +19,7 @@ menu_db = {
     'Ade':       {'price': 6000, 'cost_hot': 3000, 'cost_ice': 3000, 'category': 'Beverage'},
     
     # Baked Goods (Always available)
-    'Financier': {'price': 3000, 'cost_hot': 800, 'cost_ice': 800, 'category': 'Baked'}, # No Hot/Ice, use fixed cost
+    'Financier': {'price': 3000, 'cost_hot': 800, 'cost_ice': 800, 'category': 'Baked'},
     'Scone':     {'price': 3800, 'cost_hot': 900, 'cost_ice': 900, 'category': 'Baked'},
     
     # Sandwiches (Available from July 1st)
@@ -40,7 +39,7 @@ current_date = start_date
 # To simulate "Set Menu", we need Order IDs
 order_id_counter = 1
 
-print("Generating data with Sandwich Logic & Set Menus...")
+print("Generating data with Adjusted Sandwich Logic (8% Boost)...")
 
 while current_date <= end_date:
     month = current_date.month
@@ -48,11 +47,12 @@ while current_date <= end_date:
     
     # --- [Rule 1] Sandwich Launch Effect (July 1st) ---
     has_sandwich = False
-    traffic_multiplier = 1.0
+    traffic_multiplier = 1.0 # Default
     
     if current_date >= datetime(2023, 7, 1):
         has_sandwich = True
-        traffic_multiplier = 1.2 # 20% Traffic Boost after Sandwich launch
+        # [Modified] Adjusted boost from 1.2 (20%) to 1.08 (8%) to match reality
+        traffic_multiplier = 1.08 
     
     # --- [Rule 2] Seasonal Traffic Base ---
     if month in [12, 1, 2]: # Winter (Low Season)
@@ -84,12 +84,12 @@ while current_date <= end_date:
         order_id_counter += 1
         
         # --- [Rule 4] Category Selection ---
-        # If Sandwiches are available, they take some share + add variety
         if has_sandwich:
-            # Coffee 70%, Sandwich 15%, Ade 5%, Tea 5%, Baked 5%
+            # Sandwich takes share, slightly reduced probability to reflect moderate success
+            # Coffee 72%, Sandwich 12%, Ade 6%, Tea 5%, Baked 5%
             category_choice = random.choices(
                 ['Coffee', 'Sandwich', 'Ade', 'Tea', 'Baked'], 
-                weights=[70, 15, 5, 5, 5]
+                weights=[72, 12, 6, 5, 5]
             )[0]
         else:
             # Before July: Coffee 80%, Ade 8%, Tea 7%, Baked 5%
@@ -98,54 +98,42 @@ while current_date <= end_date:
                 weights=[80, 8, 7, 5]
             )[0]
             
-        # List of items to add to this order (Item, Is_Ice, Actual_Price)
+        # List of items to add to this order
         order_items = []
         
         # 4-1. Handling Sandwich Orders (Potential Set Menu)
         if category_choice == 'Sandwich':
-            # Select Sandwich
             sw_name = random.choices(
                 ['HamCheeseSandwich', 'ChickenSandwich', 'PumpkinSandwich'],
-                weights=[40, 30, 30] # HamCheese is slightly popular
+                weights=[40, 30, 30] 
             )[0]
             
             # [Set Menu Logic] 60% chance to buy Coffee together
             is_set = random.random() < 0.6
             
             if is_set:
-                # Decide Coffee (Americano vs Latte)
-                # Set Base: 9,000 KRW. Change coffee +1,000 KRW.
                 coffee_choice = 'Americano'
                 set_price = 9000
-                
-                if random.random() < 0.3: # 30% upgrade to Latte
+                if random.random() < 0.3: 
                     coffee_choice = 'Latte'
                     set_price = 10000
                 
-                # Add Sandwich (Recorded at discounted rate or fixed ratio? Let's allocate revenue)
-                # Strategy: Record Sandwich at full price, discount the Coffee? 
-                # Or split proportionally? Let's keep it simple:
-                # Sandwich Price = Menu Price, Coffee Price = Set Price - Sandwich Price
                 sw_price = menu_db[sw_name]['price']
                 coffee_price = set_price - sw_price
                 
-                # Add Sandwich
                 order_items.append({'name': sw_name, 'ice': False, 'price': sw_price, 'is_set': True})
-                # Add Coffee
                 # Coffee Temp Logic
                 coffee_ice = True
                 if weather == 'Rain' or season == 'Winter': coffee_ice = False
                 order_items.append({'name': coffee_choice, 'ice': coffee_ice, 'price': coffee_price, 'is_set': True})
                 
             else:
-                # Single Sandwich Order
                 order_items.append({'name': sw_name, 'ice': False, 'price': menu_db[sw_name]['price'], 'is_set': False})
 
-        # 4-2. Handling Other Categories
+        # 4-2. Other Categories
         elif category_choice == 'Coffee':
             menu_name = random.choices(['Americano', 'Latte', 'Filter'], weights=[70, 20, 10])[0]
             is_ice = True
-            # Weather/Season Logic for Temp
             if weather == 'Rain': is_ice = False if random.random() < 0.4 else True
             elif weather == 'Snow' and menu_name == 'Latte': is_ice = False 
             elif month in [12, 1, 2]: is_ice = False if random.random() < 0.6 else True
@@ -170,16 +158,15 @@ while current_date <= end_date:
             name = item['name']
             info = menu_db[name]
             
-            # Cost Calculation
             if info['category'] in ['Baked', 'Sandwich', 'Ade']:
-                cost = info['cost_hot'] # Fixed cost
+                cost = info['cost_hot'] 
             else:
                 cost = info['cost_ice'] if item['ice'] else info['cost_hot']
             
             margin = item['price'] - cost
             
             data.append({
-                'Order_ID': current_order_id, # Added for Set Menu Analysis
+                'Order_ID': current_order_id,
                 'Date': day_str,
                 'Time': time_str,
                 'Month': month,
@@ -188,10 +175,10 @@ while current_date <= end_date:
                 'Category': info['category'],
                 'Menu': name,
                 'Type': 'Ice' if item['ice'] else 'Hot',
-                'Price': item['price'], # Actual selling price (Set reflected)
+                'Price': item['price'], 
                 'Cost': cost,
                 'Margin': margin,
-                'Is_Set': item['is_set'] # To verify set sales later
+                'Is_Set': item['is_set'] 
             })
 
     current_date += timedelta(days=1)
