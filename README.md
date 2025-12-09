@@ -32,7 +32,7 @@ The goal is to reconstruct the operational data of a small business to derive ac
 * **Virtual Data Construction:** Creating a realistic dataset based on actual past experiences (Weather, Sales, COGS, Marketing).
 * **Scalability:** Starting with a high-fidelity **1-year pilot model** and expanding to a 3-year simulation using Python.
 * **Root Cause Analysis:** Identifying correlations between environmental factors (Weather, Seasonality) and Business KPIs.
-* **Strategic Dashboarding:** visualizing the "What-if" scenarios to find the optimal operating strategy.
+* **Strategic Dashboarding:** Visualizing the "What-if" scenarios to find the optimal operating strategy.
 
 ---
 
@@ -47,18 +47,20 @@ The goal is to reconstruct the operational data of a small business to derive ac
 ## 4. Roadmap
 
 ### Phase 1: Data Simulation & Construction [Completed]
-> *Status: Successfully re-engineered 1 year of operation data based on domain knowledge.*
+> *Status: Successfully re-engineered 1 year of operation data (approx. 27,000 txns) with complex business logic.*
 
 - [x] **Define Data Schema:** Established logic for Date, Weather, Menu Category, and Unit Economics (Price/Cost/Margin).
 - [x] **Implement Business Logic (The "Rules"):**
     - *Rule 1 (Seasonality):* Adjusted daily order volume based on seasonal trends (Winter dip vs. Summer peak).
-    - *Rule 2 (Weather Impact):* Correlated specific weather conditions (Rain/Snow) with Menu Type (Ice/Hot) preferences (e.g., *Snow leads to a spike in Hot Latte sales*).
-    - *Rule 3 (Menu Mix):* Applied weighted probabilities for menu selection reflecting real-world popularity (e.g., Americano dominance).
-- [x] **Generate Virtual Dataset:** Created a 1-year transaction log (`cafe_sales_data_en.csv`) with approximately 26,000 rows.
+    - *Rule 2 (Weather Impact):* Correlated specific weather conditions (Rain/Snow) with Menu Type (Ice/Hot) preferences.
+    - *Rule 3 (Menu Mix):* Applied weighted probabilities reflecting real-world popularity (e.g., Americano dominance).
+    - *Rule 4 (Strategic Event):* Simulated the **"Sandwich Launch Effect" (July 1st)**, reflecting a traffic boost and analyzing the cross-selling effect (Set Menu Bundling).
+- [x] **Generate Virtual Dataset:** Created a 1-year transaction log (`cafe_sales_data_en.csv`) ready for analysis.
 
-### Phase 2: Exploratory Data Analysis (EDA) [Current Focus]
-> *Status: Analyzing the generated dataset to validate hypotheses.*
+### Phase 2: Exploratory Data Analysis (EDA) [In Progress]
+> *Status: Verifying data integrity and analyzing key business indicators.*
 
+- [x] **Sanity Check:** Verified business logic reflection (Sandwich Launch impact & Seasonality) using `notebooks/01_eda_basic_check.ipynb`.
 - [ ] **Profitability Analysis:** Analyze Net Profit Margin trends by Season and Menu Category.
 - [ ] **Weather Correlation:** Visualize how 'Rain' or 'Snow' impacts the sales share of Hot vs. Ice beverages.
 - [ ] **Peak Time Analysis:** Identify "Golden Hours" for each menu category to optimize preparation.
@@ -67,9 +69,10 @@ The goal is to reconstruct the operational data of a small business to derive ac
 ### Phase 3: Insight & Solution
 - [ ] **Dashboard Development:** Build an interactive dashboard to visualize "What-if" scenarios.
 - [ ] **Strategy Formulation:** Propose an optimized operation strategy based on the data (e.g., Dynamic Pricing or Inventory Management).
+
 ---
 
 ## ✉️ Contact
-* **Author:** [Seoyeon Jeong]
+* **Author:** Seoyeon Jeong
 * **LinkedIn:** [https://www.linkedin.com/in/im-seoyeon-jeong/]
 * **Email:** [syn.eoeo@gmail.com]
