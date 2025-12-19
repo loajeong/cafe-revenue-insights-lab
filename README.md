@@ -29,7 +29,7 @@ This repository, **Cafe Revenue Insights Lab**, is a data simulation and analysi
 The goal is to reconstruct the operational data of a small business to derive actionable insights and strategic solutions.
 
 ### Key Objectives
-* **Virtual Data Construction:** Creating a realistic dataset based on actual past experiences (Weather, Sales, COGS, Marketing).
+* **Virtual Data Construction:** Creating a realistic dataset based on actual past experiences (Sales, Weather, **Marketing, Cost, Labor**).
 * **Scalability:** Starting with a high-fidelity **1-year pilot model** and expanding to a 3-year simulation using Python.
 * **Root Cause Analysis:** Identifying correlations between environmental factors (Weather, Seasonality) and Business KPIs.
 * **Strategic Dashboarding:** Visualizing the "What-if" scenarios to find the optimal operating strategy.
@@ -47,7 +47,7 @@ The goal is to reconstruct the operational data of a small business to derive ac
 ## 4. Roadmap
 
 ### Phase 1: Data Simulation & Construction [Completed]
-> *Status: Successfully re-engineered 1 year of operation data (approx. 27,000 txns) with complex business logic.*
+> *Status: Successfully re-engineered 1 year of operation data (approx. 27,000 txns) and marketing logs with complex business logic.*
 
 - [x] **Define Data Schema:** Established logic for Date, Weather, Menu Category, and Unit Economics (Price/Cost/Margin).
 - [x] **Implement Business Logic (The "Rules"):**
@@ -55,18 +55,25 @@ The goal is to reconstruct the operational data of a small business to derive ac
     - *Rule 2 (Weather Impact):* Correlated specific weather conditions (Rain/Snow) with Menu Type (Ice/Hot) preferences.
     - *Rule 3 (Menu Mix):* Applied weighted probabilities reflecting real-world popularity (e.g., Americano dominance).
     - *Rule 4 (Strategic Event):* Simulated the **"Sandwich Launch Effect" (July 1st)**, reflecting a traffic boost and analyzing the cross-selling effect (Set Menu Bundling).
-- [x] **Generate Virtual Dataset:** Created a 1-year transaction log (`cafe_sales_data_en.csv`) ready for analysis.
+- [x] **Generate Marketing Data (New):**
+    - Engineered the **"Marketing Paradox"**: Modeled a disconnect between high Instagram ad spend and actual revenue.
+    - Implemented the **"Offline Variable"**: Simulated the high impact of a physical signboard installation in H2.
+- [x] **Generate Virtual Dataset:** Created 1-year transaction log (`cafe_sales_data_en.csv`) and marketing log (`cafe_marketing_data.csv`).
 
 ### Phase 2: Exploratory Data Analysis (EDA) [In Progress]
-> *Status: Verifying data integrity and analyzing key business indicators.*
+> *Status: Verifying data integrity, merging datasets, and analyzing causal relationships.*
 
 - [x] **Sanity Check:** Verified business logic reflection (Sandwich Launch impact & Seasonality) using `notebooks/01_eda_basic_check.ipynb`.
+- [x] **The Marketing Paradox Visualization:** Merged Sales and Marketing datasets to visualize the ROI disconnect (High Digital Spend ≠ High Sales) and confirmed the impact of the Offline Signboard.
 - [ ] **Profitability Analysis:** Analyze Net Profit Margin trends by Season and Menu Category.
 - [ ] **Weather Correlation:** Visualize how 'Rain' or 'Snow' impacts the sales share of Hot vs. Ice beverages.
 - [ ] **Peak Time Analysis:** Identify "Golden Hours" for each menu category to optimize preparation.
 - [ ] **Scenario Verification:** Validate if the simulated data aligns with actual business memories (Reality Check).
 
-### Phase 3: Insight & Solution
+### Phase 3: Insight & Solution (Digital Twin Expansion)
+> *Status: Planning data expansion for deeper operational analysis.*
+
+- [ ] **Data Expansion (Digital Twin):** Integrate **Cost (P&L)**, **Labor Efficiency**, and **Competitor** datasets for root cause analysis.
 - [ ] **Dashboard Development:** Build an interactive dashboard to visualize "What-if" scenarios.
 - [ ] **Strategy Formulation:** Propose an optimized operation strategy based on the data (e.g., Dynamic Pricing or Inventory Management).
 
